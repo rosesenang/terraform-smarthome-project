@@ -22,21 +22,24 @@ resource "aws_subnet" "public" {
   vpc_id            = aws_vpc.main.id
   cidr_block        = var.public_subnets[count.index]
   availability_zone = var.availability_zones[count.index]
+  map_public_ip_on_launch = true
   
 
   tags = {
-    Name      = "${var.vpc_name}-privates ${var.availability_zones[count.index]}"
+    Name      = "${var.vpc_name}-public ${var.availability_zones[count.index]}"
   }
 }
+
+
 
 resource "aws_subnet" "private" {
   count             = length(var.private_subnets)
   vpc_id            = aws_vpc.main.id
   cidr_block        = var.private_subnets[count.index]
   availability_zone = var.availability_zones[count.index]
-
+  map_public_ip_on_launch = false
   tags = {
-    Name      = "${var.vpc_name}-privates ${var.availability_zones[count.index]}"
+    Name      = "${var.vpc_name}-private ${var.availability_zones[count.index]}"
   }
 }
 
@@ -49,12 +52,22 @@ resource "aws_route_table" "public" {
   }
 }
 
+resource "aws_route_table" "private" {
+
+  vpc_id = aws_vpc.main.id
+
+  tags = {
+    Name      = "privatert${var.vpc_name}"
+  }
+}
+
 resource "aws_route_table_association" "public" {
   count = length(var.public_subnets)
 
   subnet_id      = element(aws_subnet.public[*].id, count.index)
   route_table_id = aws_route_table.public.id
 }
+
 
 resource "aws_route" "public_internet_gateway" {
 
@@ -63,20 +76,18 @@ resource "aws_route" "public_internet_gateway" {
   gateway_id             = aws_internet_gateway.igw.id
 }
 
-resource "aws_eip" "private_eip" {
-  count = 3
+resource "aws_eip" "my_eip" {
   
   tags = {
-    Name      = "private${var.vpc_name}, ${count.index}"
+    Name      = "private_eip_${var.vpc_name}"
   }
 }
 
-resource "aws_nat_gateway" "privatenat" {
-  count = length(var.public_subnets)
-  allocation_id = aws_eip.private_eip[count.index].id
+resource "aws_nat_gateway" "public_nat_gateway" {
+  allocation_id = aws_eip.my_eip.id
   connectivity_type                  = "public"
-  subnet_id                          = element(aws_subnet.public[*].id, count.index)
+  subnet_id                          = aws_subnet.public[0].id
   tags = {
-    Name      = "private${count.index}"
+    Name      = "public_nat_gateway"
   }
 }
