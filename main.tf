@@ -26,7 +26,7 @@ module "lightingEC2"{
   subnet_id   = module.vpc.public_subnets[0]
   securitygroupid      = module.security.security[*]
   assoc_public_ip = true
-  key_name = var.key_name 
+  key_name = var.key_name
   tag_name = "lighting"
 }
 
@@ -35,7 +35,7 @@ module "heatingEC2" {
   subnet_id   = module.vpc.public_subnets[1]
   securitygroupid      = module.security.security[*]
   assoc_public_ip = true
-  key_name = var.key_name 
+  key_name = var.key_name
   tag_name = "heating"
 }
 
@@ -44,7 +44,7 @@ module "statusEC2" {
   subnet_id   = module.vpc.public_subnets[2]
   securitygroupid      = module.security.security[*]
   assoc_public_ip = true
-  key_name = var.key_name 
+  key_name = var.key_name
   tag_name = "status"
 }
 
@@ -53,6 +53,6 @@ module "authEC2" {
   subnet_id   = module.vpc.private_subnets[1]
   securitygroupid   = [module.security.security[2], module.security.security[3]]
   assoc_public_ip = false
-  key_name = var.key_name 
+  key_name = var.key_name
   tag_name = "auth"
 }
