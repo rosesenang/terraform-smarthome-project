@@ -6,5 +6,4 @@ private_subnets    = ["10.0.8.0/24", "10.0.9.0/24", "10.0.10.0/24"]
 table_name = ["Lighting", "Heating"]
 hash_key = "id"
 hash_key_type = "N"
-key_name = "projectkey2"
-securitygroupid = ["sg-07037a5db62bccbfe"]
+key_name = "project4keypair"

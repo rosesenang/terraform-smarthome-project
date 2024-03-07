@@ -44,7 +44,7 @@ variable "key_name" {
 #   description = "EC2s subnet"
 # }
 
-variable "securitygroupid" {
-    type = list
-    description = "security group id for EC2"
-}
+# variable "securitygroupid" {
+#     type = list
+#     description = "security group id for EC2"
+# }
