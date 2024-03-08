@@ -57,7 +57,7 @@ module "authEC2" {
   tag_name = "auth"
 }
 
-module "public_loadbalancer" {
+module "loadbalancer" {
   source = "./modules/loadbalancers"
   public_subnets = module.vpc.public_subnets
   private_subnets = module.vpc.private_subnets
@@ -72,4 +72,16 @@ module "public_loadbalancer" {
   status_dns_name = module.statusEC2.EC2_public_dns
   auth_dns_name = module.authEC2.EC2_private_dns
 }
+
+module "autoscaling" {
+  count = 4
+  source = "./modules/autoscaling"
+  max = var.max
+  min=var.min
+  desired = var.desired
+  vpc_zone_identify = element([module.vpc.public_subnets, module.vpc.private_subnets], count.index<=2?0:1)
+  lt_id = var.lt_id[count.index]
+  placementgroupname = var.placementgroupname[count.index]
+}
+
 

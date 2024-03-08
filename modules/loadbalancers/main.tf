@@ -1,5 +1,5 @@
 resource "aws_lb" "project_public" {
-  name               = "un-lb-public-tf"
+  name               = "un-lb-public1-tf"
   internal           = false
   load_balancer_type = "application"
   security_groups    = var.security_group_id
@@ -28,7 +28,7 @@ resource "aws_lb_target_group_attachment" "project_lighting" {
 }
 
 resource "aws_lb_target_group" "project_lighting" {
-  name             = "tf-project-lighting-lb-tg"
+  name             = "tf-project-lighting1-lb-tg"
   port             = 3000
   protocol         = "HTTP"
   protocol_version = "HTTP1"
@@ -70,7 +70,7 @@ resource "aws_lb_target_group_attachment" "project_heating" {
 }
 
 resource "aws_lb_target_group" "project_heating" {
-  name             = "tf-project-heating-lb-tg"
+  name             = "tf-project-heating1-lb-tg"
   port             = 3000
   protocol         = "HTTP"
   protocol_version = "HTTP1"
@@ -114,7 +114,7 @@ resource "aws_lb_target_group_attachment" "project_status" {
 }
 
 resource "aws_lb_target_group" "project_status" {
-  name             = "tf-project-status-lb-tg"
+  name             = "tf-project-status1-lb-tg"
   port             = 3000
   protocol         = "HTTP"
   protocol_version = "HTTP1"
@@ -150,7 +150,7 @@ resource "aws_lb_listener_rule" "status" {
 
 
 resource "aws_lb" "project_private" {
-  name               = "un-lb-tf"
+  name               = "un-lb-private1-tf"
   internal           = true
   load_balancer_type = "application"
   security_groups    = var.security_group_id
@@ -171,7 +171,7 @@ resource "aws_lb_listener" "project_private"{
 
 
 resource "aws_lb_target_group" "project_auth" {
-  name             = "tf-project-auth-lb-tg"
+  name             = "tf-project-auth1-lb-tg"
   port             = 3000
   protocol         = "HTTP"
   protocol_version = "HTTP1"
