@@ -1,3 +1,9 @@
+# Create a new load balancer attachment
+resource "aws_autoscaling_attachment" "all" {
+  autoscaling_group_name = aws_autoscaling_group.all.id
+  lb_target_group_arn = var.loadbalancer_target_group_arn
+}
+
 resource "aws_placement_group" "projectplacement" {
   name     = var.placementgroupname
   strategy = "spread"

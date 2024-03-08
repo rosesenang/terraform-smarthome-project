@@ -49,8 +49,6 @@ variable "min" {
   description = "minimum instance number"
 }
 
-
-
 variable "lt_id" {
     type = list
     description = "launch instance ids"
@@ -58,6 +56,10 @@ variable "lt_id" {
 
 variable "placementgroupname" {
   type = list
+}
+
+variable "api" {
+  type = list(string)
 }
 
 # variable "tag_name" {

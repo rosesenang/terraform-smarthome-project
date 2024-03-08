@@ -17,3 +17,5 @@ lt_id = [
   "lt-0d63f711894fdb3ed",
 ]
 placementgroupname = ["lightingPG", "heatingPG", "statusPG", "authPG"]
+
+api = ["lights", "heating", "status"]

@@ -28,3 +28,8 @@ variable "placementgroupname" {
   type = string
   description = "placement group name for the list"
 }
+
+variable "loadbalancer_target_group_arn" {
+    type = string
+    description = "loadbalancer target group for autoscaling attachment"
+}
