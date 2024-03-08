@@ -7,3 +7,15 @@ table_name = ["Lighting", "Heating"]
 hash_key = "id"
 hash_key_type = "N"
 key_name = "project4keypair"
+desired = 3
+min = 2
+max = 4
+lt_id = [
+  "lt-0102d82baeb60062c",
+  "lt-008410bf1faf3c98f",
+  "lt-08eecc3c5d1e6884d",
+  "lt-0d63f711894fdb3ed",
+]
+placementgroupname = ["lightingPG", "heatingPG", "statusPG", "authPG"]
+
+api = ["lights", "heating", "status"]

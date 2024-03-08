@@ -57,19 +57,40 @@ module "authEC2" {
   tag_name = "auth"
 }
 
-module "public_loadbalancer" {
+module "loadbalancer_public" {
   source = "./modules/loadbalancers"
-  public_subnets = module.vpc.public_subnets
-  private_subnets = module.vpc.private_subnets
-  security_group_id = module.security.security
-  lighting_server_id = module.lightingEC2.EC2.id
-  heating_server_id = module.heatingEC2.EC2.id
-  status_server_id = module.statusEC2.EC2.id
-  auth_server_id = module.authEC2.EC2.id
+  internal = false
+  numbertocreate = 3
+  privateorpublic = "public"
+  publicorprivatesubnet = module.vpc.public_subnets
+  api = var.api
+  security_group_id = module.security.security[*]
+  serverid = [module.lightingEC2.EC2.id, module.heatingEC2.EC2.id, module.statusEC2.EC2.id]
   vpc_id = module.vpc.vpc_id
-  lighting_dns_name = module.lightingEC2.EC2_public_dns
-  heating_dns_name = module.heatingEC2.EC2_public_dns
-  status_dns_name = module.statusEC2.EC2_public_dns
-  auth_dns_name = module.authEC2.EC2_private_dns
 }
+
+module "loadbalancer_private" {
+  source = "./modules/loadbalancers"
+  internal = true
+    numbertocreate = 1
+  privateorpublic = "private"
+  publicorprivatesubnet = module.vpc.private_subnets
+  api = ["auth"]
+  security_group_id = [module.security.security[2], module.security.security[3]]
+  serverid = [module.authEC2.EC2.id]
+  vpc_id = module.vpc.vpc_id
+}
+
+module "autoscaling" {
+  count = 4
+  source = "./modules/autoscaling"
+  loadbalancer_target_group_arn = element([module.loadbalancer_public.alb_arn, module.loadbalancer_private.alb_arn], count.index<=2?0:1)
+  max = var.max
+  min=var.min
+  desired = var.desired
+  vpc_zone_identify = element([module.vpc.public_subnets, module.vpc.private_subnets], count.index<=2?0:1)
+  lt_id = var.lt_id[count.index]
+  placementgroupname = var.placementgroupname[count.index]
+}
+
 

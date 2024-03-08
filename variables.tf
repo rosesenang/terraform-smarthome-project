@@ -34,6 +34,34 @@ variable "key_name" {
   sensitive = true
 }
 
+variable "desired" {
+  type        = number
+  description = "desired instance number"
+}
+
+variable "max" {
+  type        = number
+  description = "maximum instance number"
+}
+
+variable "min" {
+  type        = number
+  description = "minimum instance number"
+}
+
+variable "lt_id" {
+    type = list
+    description = "launch instance ids"
+}
+
+variable "placementgroupname" {
+  type = list
+}
+
+variable "api" {
+  type = list(string)
+}
+
 # variable "tag_name" {
 #   type = string
 #   description = "Name of server"
