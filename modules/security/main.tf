@@ -74,6 +74,15 @@ resource "aws_security_group_rule" "project_private_ingress" {
   cidr_blocks = ["0.0.0.0/0"]
 }
 
+resource "aws_vpc_security_group_ingress_rule" "project_private_custom_ingress" {
+  security_group_id = aws_security_group.project_private_ingress.id
+  cidr_ipv4 = "0.0.0.0/0"
+  from_port   = 3000
+  ip_protocol = "tcp"
+  to_port     = 3000
+  
+}
+
 resource "aws_security_group" "project_private_egress" {
   name        = "project_private_egress"
   description = "Project security group"

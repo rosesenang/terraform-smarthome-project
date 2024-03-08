@@ -56,3 +56,20 @@ module "authEC2" {
   key_name = var.key_name
   tag_name = "auth"
 }
+
+module "public_loadbalancer" {
+  source = "./modules/loadbalancers"
+  public_subnets = module.vpc.public_subnets
+  private_subnets = module.vpc.private_subnets
+  security_group_id = module.security.security
+  lighting_server_id = module.lightingEC2.EC2.id
+  heating_server_id = module.heatingEC2.EC2.id
+  status_server_id = module.statusEC2.EC2.id
+  auth_server_id = module.authEC2.EC2.id
+  vpc_id = module.vpc.vpc_id
+  lighting_dns_name = module.lightingEC2.EC2_public_dns
+  heating_dns_name = module.heatingEC2.EC2_public_dns
+  status_dns_name = module.statusEC2.EC2_public_dns
+  auth_dns_name = module.authEC2.EC2_private_dns
+}
+
