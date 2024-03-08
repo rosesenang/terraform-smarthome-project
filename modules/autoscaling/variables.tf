@@ -13,7 +13,6 @@ variable "min" {
   description = "minimum instance number"
 }
 
-
 variable "vpc_zone_identify" {
     type = list
     description = "Subnet zones list"
